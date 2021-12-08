@@ -28,7 +28,35 @@ First, we created a React project using Node package manager, NPX.
 npx create-react-app my-app
 ```
 
-Create React App doesn’t handle backend logic or databases; it just creates a frontend build pipeline, so you can use it with any backend. Then we created components for Sign up, Sign in, Home page, Upload Page, and Document List. Next, State management to maintain the session for the user and authenticate each transaction using the token associated with that user. Document state to maintain the state of the document, whether it is pending approval, approved, rejected or pending transaction hash from blockchain. And then, connected the frontend to the backend by calling the backend API’s for different actions such as authenticating users, exchanging data and carrying out transactions.
+Creating a React App doesn’t handle backend logic or databases; it just creates a frontend build pipeline, so you can use it with any backend. Then we created components for Sign up, Sign in, Home page, Upload Page, and Document List using ES6 classes.
+
+```jsx
+class Welcome extends React.Component {
+  render() {
+    return <h1>Hello, {this.props.name}</h1>;
+  }
+}
+```
+
+Next comes the State management to maintain the session for the user and authenticate each transaction using the JWT Token. Document state to maintain the state of the document, whether it is pending, approved, or rejected. Lastly, we connected the frontend to the backend by calling the backend REST API’s for different actions such as authenticating users, exchanging data and carrying out transactions.
+
+```jsx
+// Make a GET request
+axios({
+  method: 'get',
+  url: 'https://resilient-doc.com/api/v1/documents',
+});
+
+// Make a Post Request
+axios({
+  method: 'post',
+  url: '/login',
+  data: {
+    userName: 'john1234',
+    password: '*******'
+  }
+});
+```
 
 ### Back End Development
 
@@ -37,19 +65,15 @@ We installed the dependencies for the backend using NPM.
 npm install express --save
 ```
 
-Since we are using Express, we need to create a server. We will use the Express framework to create a server. We implemented REST APIs using Express JS Framework for user functionalities and some document functionalities. REST APIs for 
+We implemented REST APIs using Express JS Framework for user functionalities and some document functionalities. Subsequently, we integrated MongoDB for storing user data, document data, and transactional data and integrated Resilient DB to store and verify the document hash. We need to create a MongoDB database and have our application connect to it. We will also need to install mongoose dependency so we can use mongoose to interact with our database.
 
-1. User registration with details such as user email, first name, last name, and password and for Login, we used JSON Web tokens for user Authentication.
-2. For document upload API, the user should include attributes such as the document, associated users, and the location of the file.
-3. Edit the document to replace the whole document.
-4. Edit data of the document.
-5. Some REST APIs to list the users, search a user.
-6. User transactions such as approve and reject.
-7. List pending requests of a specific user.
+```js
+var mongoose   = require('mongoose');
+mongoose.connect('mongodb://127.0.0.1/my_database'); // connect to database
+```
 
-Subsequently, we integrated MongoDB for storing user data, document data, and transactional data and integrated Resilient DB to store and verify the document hash.
+We will use mongoose to create models to define the Schema. Then, we create routes for all the REST APIs. We use an instance of the Express Router to handle all of our routes.
+
 
 ### ResilientDB Service
-
-
 
